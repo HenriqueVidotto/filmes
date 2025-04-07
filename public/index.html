@@ -276,7 +276,7 @@
 
     <script>
         // Configuração da API
-        const API_URL = 'https://filmes-swart-eight.vercel.app/api';
+        const API_URL = 'api';
         let filmeIdParaExcluir = null;
         let filmes = [];
 
@@ -383,31 +383,16 @@
                 noResults.classList.add('hidden');
                 filmesLista.innerHTML = '';
                 
-                // Como não temos um endpoint para listar todos os filmes,
-                // vamos usar uma lista local para demonstração
-                // Em um ambiente real, você teria um endpoint para listar todos os filmes
+                const response = await fetch(`${API_URL}/filmes`);
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Erro ao buscar filme');
+                }
+
+                filmes =await response.json();
                 
-                // Inicialmente, vamos carregar alguns filmes de exemplo
-                // Em um ambiente real, você faria uma requisição GET para o endpoint adequado
-                filmes = [
-                    {
-                        _id: '1',
-                        nome: 'Interestelar',
-                        nota: 9.5,
-                        genero: 'Ficção Científica',
-                        data_lancamento: '2014-11-07',
-                        descricao: 'Um grupo de astronautas viaja através de um buraco de minhoca em busca de um novo lar para a humanidade.'
-                    },
-                    {
-                        _id: '2',
-                        nome: 'Pulp Fiction',
-                        nota: 8.9,
-                        genero: 'Crime',
-                        data_lancamento: '1994-10-14',
-                        descricao: 'As vidas de dois assassinos da máfia, um boxeador, um gângster e sua esposa, e um par de bandidos se entrelaçam em quatro histórias de violência e redenção.'
-                    }
-                ];
-                
+              
                 renderizarFilmes(filmes);
                 loading.classList.add('hidden');
                 
