@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Catálogo de Filmes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            200: '#ddd6fe',
+                            300: '#c4b5fd',
+                            400: '#a78bfa',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            800: '#5b21b6',
+                            900: '#4c1d95',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <nav class="bg-gray-800 border-b border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-film text-primary-500 text-2xl mr-2"></i>
+                        <span class="font-bold text-xl">Sistema de Catálogo de Filmes</span>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-4">
+                            <a href="#" class="text-white px-3 py-2 rounded-md text-sm font-medium" id="nav-inicio">Início</a>
+                            <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium" id="nav-filmes">Filmes</a>
+                            <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Sobre</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Landing Page -->
+    <div id="landing-page" class="flex-grow">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="lg:flex lg:items-center lg:justify-between">
+                <div class="lg:w-1/2">
+                    <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl">
+                        <span class="block">Bem-vindo ao</span>
+                        <span class="block text-primary-500">Sistema de Catálogo de Filmes</span>
+                    </h1>
+                    <p class="mt-4 text-lg text-gray-300">
+                        Uma plataforma completa para gerenciamento de filmes. 
+                        Acesse, cadastre e gerencie informações sobre filmes de forma simples e eficiente.
+                    </p>
+                    <div class="mt-8 flex flex-col sm:flex-row sm:space-x-4">
+                        <button id="btn-gerenciar" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 mb-3 sm:mb-0">
+                            <i class="fas fa-cogs mr-2"></i> Gerenciar Filmes
+                        </button>
+                        <button class="inline-flex items-center px-4 py-2 border border-gray-300 text-base font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                            <i class="fas fa-info-circle mr-2"></i> Saiba Mais
+                        </button>
+                    </div>
+                </div>
+                <div class="mt-10 lg:mt-0 lg:w-1/2">
+                    <div class="border-2 border-primary-500 rounded-lg overflow-hidden p-4 bg-gray-800">
+                        <img src="https://sjc.microlink.io/fVZE6EZUiMRsgdbAsLxHeyJ_RECWRMynM2zVSUKjb_iSQ8kxNdWrlqz6WrSshk0kGvxkeP-FYnDfkbaKYksE_w.jpeg" alt="Ilustração de filmes" class="w-full h-auto rounded-lg">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recursos -->
+        <div class="py-12 bg-gray-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
+                        Recursos do Sistema
+                    </h2>
+                    <p class="mt-4 max-w-2xl text-xl text-gray-300 mx-auto">
+                        Tudo o que você precisa para gerenciar seu catálogo de filmes.
+                    </p>
+                </div>
+
+                <div class="mt-10">
+                    <div class="grid grid-cols-1 gap-8 sm:grid-cols-3">
+                        <div class="pt-6">
+                            <div class="flow-root bg-gray-700 rounded-lg px-6 pb-8">
+                                <div class="-mt-6">
+                                    <div>
+                                        <span class="inline-flex items-center justify-center p-3 bg-primary-500 rounded-md shadow-lg">
+                                            <i class="fas fa-plus text-white text-xl"></i>
+                                        </span>
+                                    </div>
+                                    <h3 class="mt-8 text-lg font-medium text-white tracking-tight">Cadastro de Filmes</h3>
+                                    <p class="mt-5 text-base text-gray-300">
+                                        Adicione novos filmes ao seu catálogo com informações detalhadas.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-6">
+                            <div class="flow-root bg-gray-700 rounded-lg px-6 pb-8">
+                                <div class="-mt-6">
+                                    <div>
+                                        <span class="inline-flex items-center justify-center p-3 bg-primary-500 rounded-md shadow-lg">
+                                            <i class="fas fa-edit text-white text-xl"></i>
+                                        </span>
+                                    </div>
+                                    <h3 class="mt-8 text-lg font-medium text-white tracking-tight">Edição Simplificada</h3>
+                                    <p class="mt-5 text-base text-gray-300">
+                                        Atualize as informações dos filmes de forma rápida e intuitiva.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-6">
+                            <div class="flow-root bg-gray-700 rounded-lg px-6 pb-8">
+                                <div class="-mt-6">
+                                    <div>
+                                        <span class="inline-flex items-center justify-center p-3 bg-primary-500 rounded-md shadow-lg">
+                                            <i class="fas fa-trash-alt text-white text-xl"></i>
+                                        </span>
+                                    </div>
+                                    <h3 class="mt-8 text-lg font-medium text-white tracking-tight">Gerenciamento Completo</h3>
+                                    <p class="mt-5 text-base text-gray-300">
+                                        Remova filmes do seu catálogo com facilidade quando necessário.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CRUD de Filmes -->
+    <div id="crud-page" class="flex-grow hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold text-white">Gerenciamento de Filmes</h2>
+                <button id="btn-voltar" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gray-700 hover:bg-gray-600">
+                    <i class="fas fa-arrow-left mr-2"></i> Voltar
+                </button>
+            </div>
+
+            <!-- Botão Adicionar Filme -->
+            <div class="mb-6">
+                <button id="btn-adicionar" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                    <i class="fas fa-plus mr-2"></i> Adicionar Filme
+                </button>
+            </div>
+
+            <!-- Tabela de Filmes -->
+            <div class="overflow-x-auto relative">
+                <table class="w-full text-sm text-left text-gray-300">
+                    <thead class="text-xs uppercase bg-gray-700 text-gray-300">
+                        <tr>
+                            <th scope="col" class="py-3 px-6">Nome</th>
+                            <th scope="col" class="py-3 px-6">Nota</th>
+                            <th scope="col" class="py-3 px-6">Gênero</th>
+                            <th scope="col" class="py-3 px-6">Data de Lançamento</th>
+                            <th scope="col" class="py-3 px-6">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="filmes-lista">
+                        <!-- Os filmes serão carregados aqui via JavaScript -->
+                    </tbody>
+                </table>
+                <div id="loading" class="text-center py-4 hidden">
+                    <i class="fas fa-spinner fa-spin text-primary-500 text-2xl"></i>
+                    <p class="mt-2 text-gray-300">Carregando filmes...</p>
+                </div>
+                <div id="no-results" class="text-center py-4 hidden">
+                    <i class="fas fa-film text-gray-500 text-2xl"></i>
+                    <p class="mt-2 text-gray-400">Nenhum filme encontrado.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Adicionar/Editar Filme -->
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-gray-800 rounded-lg max-w-md w-full mx-4">
+            <div class="flex justify-between items-center border-b border-gray-700 p-4">
+                <h3 id="modal-title" class="text-xl font-semibold text-white">Adicionar Filme</h3>
+                <button id="btn-fechar-modal" class="text-gray-400 hover:text-white">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="p-4">
+                <form id="filme-form">
+                    <input type="hidden" id="filme-id">
+                    <div class="mb-4">
+                        <label for="nome" class="block text-sm font-medium text-gray-300 mb-1">Nome</label>
+                        <input type="text" id="nome" class="bg-gray-700 text-white rounded-md border-gray-600 focus:border-primary-500 focus:ring focus:ring-primary-500 focus:ring-opacity-50 block w-full p-2.5" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="nota" class="block text-sm font-medium text-gray-300 mb-1">Nota (0-10)</label>
+                        <input type="number" id="nota" class="bg-gray-700 text-white rounded-md border-gray-600 focus:border-primary-500 focus:ring focus:ring-primary-500 focus:ring-opacity-50 block w-full p-2.5" min="0" max="10" step="0.1" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="genero" class="block text-sm font-medium text-gray-300 mb-1">Gênero</label>
+                        <input type="text" id="genero" class="bg-gray-700 text-white rounded-md border-gray-600 focus:border-primary-500 focus:ring focus:ring-primary-500 focus:ring-opacity-50 block w-full p-2.5" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="data_lancamento" class="block text-sm font-medium text-gray-300 mb-1">Data de Lançamento</label>
+                        <input type="date" id="data_lancamento" class="bg-gray-700 text-white rounded-md border-gray-600 focus:border-primary-500 focus:ring focus:ring-primary-500 focus:ring-opacity-50 block w-full p-2.5" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="descricao" class="block text-sm font-medium text-gray-300 mb-1">Descrição</label>
+                        <textarea id="descricao" rows="3" class="bg-gray-700 text-white rounded-md border-gray-600 focus:border-primary-500 focus:ring focus:ring-primary-500 focus:ring-opacity-50 block w-full p-2.5" required></textarea>
+                    </div>
+                    <div class="flex justify-end space-x-3 mt-6">
+                        <button type="button" id="btn-cancelar" class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-500">Cancelar</button>
+                        <button type="submit" id="btn-salvar" class="px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação -->
+    <div id="confirm-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-gray-800 rounded-lg max-w-md w-full mx-4">
+            <div class="p-4 border-b border-gray-700">
+                <h3 class="text-xl font-semibold text-white">Confirmar Exclusão</h3>
+            </div>
+            <div class="p-4">
+                <p class="text-gray-300">Tem certeza que deseja excluir este filme? Esta ação não pode ser desfeita.</p>
+                <div class="flex justify-end space-x-3 mt-6">
+                    <button id="btn-cancelar-exclusao" class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-500">Cancelar</button>
+                    <button id="btn-confirmar-exclusao" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Excluir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast de Notificação -->
+    <div id="toast" class="fixed bottom-4 right-4 bg-gray-800 text-white px-4 py-2 rounded-md shadow-lg hidden z-50">
+        <div class="flex items-center">
+            <i id="toast-icon" class="fas fa-check-circle text-green-500 mr-2"></i>
+            <span id="toast-message">Operação realizada com sucesso!</span>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 py-6 border-t border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <i class="fas fa-film text-primary-500 text-xl mr-2"></i>
+                    <span class="text-white font-semibold">Sistema de Catálogo de Filmes</span>
+                </div>
+                <div class="text-gray-400 text-sm">
+                    &copy; 2025 Sistema de Catálogo de Filmes. Todos os direitos reservados.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Configuração da API
+        const API_URL = 'https://filmes-iota.vercel.app/api';
+        let filmeIdParaExcluir = null;
+        let filmes = [];
+
+        // Elementos DOM
+        const landingPage = document.getElementById('landing-page');
+        const crudPage = document.getElementById('crud-page');
+        const btnGerenciar = document.getElementById('btn-gerenciar');
+        const btnVoltar = document.getElementById('btn-voltar');
+        const navInicio = document.getElementById('nav-inicio');
+        const navFilmes = document.getElementById('nav-filmes');
+        const btnAdicionar = document.getElementById('btn-adicionar');
+        const modal = document.getElementById('modal');
+        const modalTitle = document.getElementById('modal-title');
+        const btnFecharModal = document.getElementById('btn-fechar-modal');
+        const btnCancelar = document.getElementById('btn-cancelar');
+        const filmeForm = document.getElementById('filme-form');
+        const filmesLista = document.getElementById('filmes-lista');
+        const confirmModal = document.getElementById('confirm-modal');
+        const btnCancelarExclusao = document.getElementById('btn-cancelar-exclusao');
+        const btnConfirmarExclusao = document.getElementById('btn-confirmar-exclusao');
+        const toast = document.getElementById('toast');
+        const toastIcon = document.getElementById('toast-icon');
+        const toastMessage = document.getElementById('toast-message');
+        const loading = document.getElementById('loading');
+        const noResults = document.getElementById('no-results');
+
+        // Navegação
+        btnGerenciar.addEventListener('click', () => {
+            landingPage.classList.add('hidden');
+            crudPage.classList.remove('hidden');
+            carregarFilmes();
+        });
+
+        btnVoltar.addEventListener('click', () => {
+            crudPage.classList.add('hidden');
+            landingPage.classList.remove('hidden');
+        });
+
+        navInicio.addEventListener('click', (e) => {
+            e.preventDefault();
+            crudPage.classList.add('hidden');
+            landingPage.classList.remove('hidden');
+        });
+
+        navFilmes.addEventListener('click', (e) => {
+            e.preventDefault();
+            landingPage.classList.add('hidden');
+            crudPage.classList.remove('hidden');
+            carregarFilmes();
+        });
+
+        // Modal
+        btnAdicionar.addEventListener('click', () => {
+            modalTitle.textContent = 'Adicionar Filme';
+            filmeForm.reset();
+            document.getElementById('filme-id').value = '';
+            modal.classList.remove('hidden');
+        });
+
+        btnFecharModal.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+
+        btnCancelar.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+
+        // Modal de Confirmação
+        btnCancelarExclusao.addEventListener('click', () => {
+            confirmModal.classList.add('hidden');
+        });
+
+        btnConfirmarExclusao.addEventListener('click', () => {
+            if (filmeIdParaExcluir) {
+                excluirFilme(filmeIdParaExcluir);
+            }
+            confirmModal.classList.add('hidden');
+        });
+
+        // Formulário
+        filmeForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const filmeId = document.getElementById('filme-id').value;
+            const filme = {
+                nome: document.getElementById('nome').value,
+                nota: parseFloat(document.getElementById('nota').value),
+                genero: document.getElementById('genero').value,
+                data_lancamento: document.getElementById('data_lancamento').value,
+                descricao: document.getElementById('descricao').value
+            };
+            
+            if (filmeId) {
+                atualizarFilme(filmeId, filme);
+            } else {
+                criarFilme(filme);
+            }
+        });
+
+        // Funções CRUD
+        async function carregarFilmes() {
+            try {
+                loading.classList.remove('hidden');
+                noResults.classList.add('hidden');
+                filmesLista.innerHTML = '';
+                
+                // Como não temos um endpoint para listar todos os filmes,
+                // vamos usar uma lista local para demonstração
+                // Em um ambiente real, você teria um endpoint para listar todos os filmes
+                
+                // Inicialmente, vamos carregar alguns filmes de exemplo
+                // Em um ambiente real, você faria uma requisição GET para o endpoint adequado
+                filmes = [
+                    {
+                        _id: '1',
+                        nome: 'Interestelar',
+                        nota: 9.5,
+                        genero: 'Ficção Científica',
+                        data_lancamento: '2014-11-07',
+                        descricao: 'Um grupo de astronautas viaja através de um buraco de minhoca em busca de um novo lar para a humanidade.'
+                    },
+                    {
+                        _id: '2',
+                        nome: 'Pulp Fiction',
+                        nota: 8.9,
+                        genero: 'Crime',
+                        data_lancamento: '1994-10-14',
+                        descricao: 'As vidas de dois assassinos da máfia, um boxeador, um gângster e sua esposa, e um par de bandidos se entrelaçam em quatro histórias de violência e redenção.'
+                    }
+                ];
+                
+                renderizarFilmes(filmes);
+                loading.classList.add('hidden');
+                
+                if (filmes.length === 0) {
+                    noResults.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Erro ao carregar filmes:', error);
+                loading.classList.add('hidden');
+                mostrarToast('Erro ao carregar filmes. Tente novamente.', 'error');
+            }
+        }
+
+        function renderizarFilmes(filmes) {
+            filmesLista.innerHTML = '';
+            
+            filmes.forEach(filme => {
+                const row = document.createElement('tr');
+                row.className = 'bg-gray-800 border-b border-gray-700 hover:bg-gray-700';
+                
+                const dataFormatada = new Date(filme.data_lancamento).toLocaleDateString('pt-BR');
+                
+                row.innerHTML = `
+                    <td class="py-4 px-6">${filme.nome}</td>
+                    <td class="py-4 px-6">${filme.nota}</td>
+                    <td class="py-4 px-6">${filme.genero}</td>
+                    <td class="py-4 px-6">${dataFormatada}</td>
+                    <td class="py-4 px-6">
+                        <div class="flex space-x-2">
+                            <button class="text-blue-400 hover:text-blue-300" data-id="${filme._id}" data-action="view">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="text-yellow-400 hover:text-yellow-300" data-id="${filme._id}" data-action="edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="text-red-400 hover:text-red-300" data-id="${filme._id}" data-action="delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                
+                filmesLista.appendChild(row);
+            });
+            
+            // Adicionar event listeners para os botões de ação
+            document.querySelectorAll('[data-action]').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const filmeId = e.currentTarget.getAttribute('data-id');
+                    const action = e.currentTarget.getAttribute('data-action');
+                    
+                    if (action === 'view') {
+                        visualizarFilme(filmeId);
+                    } else if (action === 'edit') {
+                        editarFilme(filmeId);
+                    } else if (action === 'delete') {
+                        confirmarExclusao(filmeId);
+                    }
+                });
+            });
+        }
+
+        async function criarFilme(filme) {
+            try {
+                const response = await fetch(`${API_URL}/filmes`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(filme)
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Erro ao criar filme');
+                }
+                
+                const novoFilme = await response.json();
+                filmes.push(novoFilme);
+                renderizarFilmes(filmes);
+                modal.classList.add('hidden');
+                mostrarToast('Filme adicionado com sucesso!', 'success');
+            } catch (error) {
+                console.error('Erro ao criar filme:', error);
+                mostrarToast(`Erro ao adicionar filme: ${error.message}`, 'error');
+            }
+        }
+
+        async function visualizarFilme(id) {
+            try {
+                const response = await fetch(`${API_URL}/filmes/${id}`);
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Erro ao buscar filme');
+                }
+                
+                const filme = await response.json();
+                
+                if (filme) {
+                    modalTitle.textContent = 'Visualizar Filme';
+                    document.getElementById('filme-id').value = filme._id;
+                    document.getElementById('nome').value = filme.nome;
+                    document.getElementById('nota').value = filme.nota;
+                    document.getElementById('genero').value = filme.genero;
+                    document.getElementById('data_lancamento').value = formatarDataParaInput(filme.data_lancamento);
+                    document.getElementById('descricao').value = filme.descricao;
+                    
+                    // Desabilitar campos para visualização
+                    document.querySelectorAll('#filme-form input, #filme-form textarea').forEach(input => {
+                        input.setAttribute('readonly', true);
+                    });
+                    
+                    document.getElementById('btn-salvar').classList.add('hidden');
+                    modal.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Erro ao visualizar filme:', error);
+                mostrarToast(`Erro ao carregar detalhes do filme: ${error.message}`, 'error');
+            }
+        }
+
+        async function editarFilme(id) {
+            try {
+                const response = await fetch(`${API_URL}/filmes/${id}`);
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Erro ao buscar filme');
+                }
+                
+                const filme = await response.json();
+                
+                if (filme) {
+                    modalTitle.textContent = 'Editar Filme';
+                    document.getElementById('filme-id').value = filme._id;
+                    document.getElementById('nome').value = filme.nome;
+                    document.getElementById('nota').value = filme.nota;
+                    document.getElementById('genero').value = filme.genero;
+                    document.getElementById('data_lancamento').value = formatarDataParaInput(filme.data_lancamento);
+                    document.getElementById('descricao').value = filme.descricao;
+                    
+                    // Habilitar campos para edição
+                    document.querySelectorAll('#filme-form input, #filme-form textarea').forEach(input => {
+                        input.removeAttribute('readonly');
+                    });
+                    
+                    document.getElementById('btn-salvar').classList.remove('hidden');
+                    modal.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Erro ao editar filme:', error);
+                mostrarToast(`Erro ao carregar  {`);
+                console.error('Erro ao editar filme:', error);
+                mostrarToast(`Erro ao carregar detalhes do filme para edição: ${error.message}`, 'error');
+            }
+        }
+
+        async function atualizarFilme(id, filme) {
+            try {
+                const response = await fetch(`${API_URL}/filmes/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(filme)
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Erro ao atualizar filme');
+                }
+                
+                const filmeAtualizado = await response.json();
+                const index = filmes.findIndex(f => f._id === id);
+                if (index !== -1) {
+                    filmes[index] = filmeAtualizado;
+                    renderizarFilmes(filmes);
+                    modal.classList.add('hidden');
+                    mostrarToast('Filme atualizado com sucesso!', 'success');
+                }
+            } catch (error) {
+                console.error('Erro ao atualizar filme:', error);
+                mostrarToast(`Erro ao atualizar filme: ${error.message}`, 'error');
+            }
+        }
+
+        function confirmarExclusao(id) {
+            filmeIdParaExcluir = id;
+            confirmModal.classList.remove('hidden');
+        }
+
+        async function excluirFilme(id) {
+            try {
+                const response = await fetch(`${API_URL}/filmes/${id}`, {
+                    method: 'DELETE'
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Erro ao excluir filme');
+                }
+                
+                filmes = filmes.filter(f => f._id !== id);
+                renderizarFilmes(filmes);
+                mostrarToast('Filme excluído com sucesso!', 'success');
+                
+                if (filmes.length === 0) {
+                    noResults.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Erro ao excluir filme:', error);
+                mostrarToast(`Erro ao excluir filme: ${error.message}`, 'error');
+            }
+        }
+
+        // Utilitários
+        function formatarDataParaInput(dataString) {
+            const data = new Date(dataString);
+            return data.toISOString().split('T')[0];
+        }
+
+        function mostrarToast(mensagem, tipo) {
+            toastMessage.textContent = mensagem;
+            
+            if (tipo === 'success') {
+                toastIcon.className = 'fas fa-check-circle text-green-500 mr-2';
+            } else if (tipo === 'error') {
+                toastIcon.className = 'fas fa-exclamation-circle text-red-500 mr-2';
+            } else if (tipo === 'warning') {
+                toastIcon.className = 'fas fa-exclamation-triangle text-yellow-500 mr-2';
+            }
+            
+            toast.classList.remove('hidden');
+            
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicializar a página de landing por padrão
+            landingPage.classList.remove('hidden');
+            crudPage.classList.add('hidden');
+        });
+    </script>
+</body>
+</html>

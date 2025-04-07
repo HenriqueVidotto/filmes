@@ -1,0 +1,16 @@
+@baseURL = http://localhost:3000/api/filmes
+
+
+###
+// POST - Insere um novo filme
+POST {{baseURL}}
+Content-Type: application/json
+
+{
+  "nome": "terste",
+  "descricao": "Abadia de Votorantim",
+  "genero": "false",
+  "nota": 10,
+  "data_lancamento": "2022-01-01"
+
+}
