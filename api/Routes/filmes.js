@@ -1,17 +1,17 @@
 import express from 'express';
 
 import { createFilme,getFilmeById,deleteFilme,updateFilme,getAllFilmes,getAllFilmesByAno } from '../Controller/filmes.js';
-import {validateFilme} from "../Middleware/validations.js"
+import {validateFilme, validateId, validateUpdateFilme} from "../Middleware/validations.js"
 
 const router = express.Router();
 
 router.get('/getByAno', getAllFilmesByAno);
 router.post('/', validateFilme, createFilme);
-router.get('/:id', getFilmeById);
+router.get('/:id',validateId, getFilmeById);
 router.get('/', getAllFilmes);
 
-router.delete('/:id', deleteFilme);
-router.put('/:id',validateFilme, updateFilme);
+router.delete('/:id',validateId, deleteFilme);
+router.put('/:id',validateId,validateUpdateFilme, updateFilme);
 
 
 export default router

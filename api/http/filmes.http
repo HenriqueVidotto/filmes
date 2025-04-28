@@ -1,8 +1,9 @@
 @baseURL = http://localhost:3000/api/filmes
-
+@id = 680f7cb0fec82d0c81fd880b
 
 ###
-// POST - Insere um novo filme
+// POST 
+// Insere um novo filme
 POST {{baseURL}}
 Content-Type: application/json
 
@@ -11,6 +12,40 @@ Content-Type: application/json
   "descricao": "Abadia de Votorantim",
   "genero": "false",
   "nota": 10,
-  "data_lancamento": "2022-01-01"
+  "data_lancamento": "2022-01-01",
+  "classificacao_etaria": 12
 
 }
+
+### 
+//PUT 
+// Atualizar um filme existente
+PUT {{baseURL}}/{{id}}
+Content-Type: application/json
+
+{
+  "nome": "Teste Atualizado",
+  "descricao": "Descrição atualizada",
+  "genero": "Aventura",
+  "nota": 8.5,
+  "data_lancamento": "2023-05-10",
+  "classificacao_etaria": 12
+}
+
+
+### 
+//GET 
+// Buscar filmes lançados entre dois anos
+GET {{baseURL}}/getByAno?anoDe=2020&anoAte=2025
+
+
+### 
+//GET 
+// Listar todos os filmes (paginado, filtrável)
+GET {{baseURL}}?page=1&limit=10&sort=nome&order=asc
+
+
+### 
+//DELETE 
+// Deletar um filme pelo ID
+DELETE {{baseURL}}/{{id}}
