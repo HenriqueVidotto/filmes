@@ -137,7 +137,7 @@ export const getAllFilmes = async (req, res) => {
 
 export const getAllFilmesByAno = async (req, res) => {
   try {
-    console.log("entrou na funcao getAllFilmesByAno");
+
     const { anoDe, anoAte, page = 1, limit = 10, notaMin, notaMax } = req.query;
 
     const dataInicio = new Date(`${anoDe}-01-01`);
@@ -157,7 +157,6 @@ export const getAllFilmesByAno = async (req, res) => {
 
     // Adicionando o filtro de nota ao array $and, se necessário
     if (notaMin !== undefined || notaMax !== undefined) {
-      console.log("entrou no if do filtro de nota");
       const notaFiltro = {};
       if (notaMin !== undefined) notaFiltro.$gte = parseFloat(notaMin);
       if (notaMax !== undefined) notaFiltro.$lte = parseFloat(notaMax);
@@ -166,7 +165,6 @@ export const getAllFilmesByAno = async (req, res) => {
       query.$and.push({ nota: notaFiltro });
     }
 
-    console.log("query final:", JSON.stringify(query, null, 2));
 
     // Realizando a consulta no banco
     const filmes = await db.collection('filme')
@@ -188,7 +186,7 @@ export const getAllFilmesByAno = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Erro ao buscar filmes por ano:', error);
+
     res.status(500).json({ message: 'Erro ao buscar filmes.' });
   }
 };
