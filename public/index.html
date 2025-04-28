@@ -1105,6 +1105,20 @@
             mostrarToast(`Erro ao adicionar filme: ${error.message}`, 'error');
         }
     }
+
+
+    btnCancelarExclusao.addEventListener('click', () => {
+        confirmModal.classList.add('hidden');
+        filmeIdParaExcluir = null;
+    });
+
+    btnConfirmarExclusao.addEventListener('click', () => {
+        if (filmeIdParaExcluir) {
+            excluirFilme(filmeIdParaExcluir);
+            confirmModal.classList.add('hidden');
+            filmeIdParaExcluir = null;
+        }
+    });
 </script>
 </body>
 </html>
