@@ -1,8 +1,4 @@
-Claro! Vou criar para você um `README.md` no mesmo estilo que você enviou, mas adaptado para o seu projeto de **API de Filmes** com **Express.js** e **MongoDB**.
 
-Aqui está a versão pronta:
-
----
 
 # API de Filmes 🎬 - Node.js + MongoDB
 
@@ -89,7 +85,7 @@ MONGO_URI=mongodb+srv://usuario:senha@cluster0.mongodb.net/nomedobanco?retryWrit
 ├── .env
 ├── package.json
 ├── README.md
-└── ...
+
 ```
 
 ## 🗺️ Endpoints da API
@@ -133,7 +129,6 @@ As validações são realizadas utilizando `express-validator`.
 ## ⚠️ Limitações e Observações
 
 - Esta API foi desenvolvida para fins de estudo e desenvolvimento.
-- Para produção, recomenda-se melhorias como autenticação, controle de acessos e otimizações no banco.
 - O projeto assume que todos os dados enviados têm formatação e tipos corretos conforme o esperado.
 
 ## 💡 Exemplos de Uso
@@ -187,9 +182,5 @@ Este projeto está licenciado sob a licença MIT.
 
 ## 👨 Autor
 
-Desenvolvido por [Seu Nome ou Apelido].
+Desenvolvido por Henrique Vidotto Vinico Neto.
 
----
-
-Se quiser, também posso já te gerar o arquivo `.md` pronto para você baixar.  
-Quer que eu envie também? 🚀
