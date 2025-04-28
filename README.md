@@ -120,7 +120,7 @@ MONGO_URI=mongodb+srv://usuario:senha@cluster0.mongodb.net/nomedobanco?retryWrit
 - **Nota**: obrigatório, número entre 0 e 10
 - **Descrição**: obrigatório
 - **Gênero**: obrigatório
-- **Data de Lançamento**: obrigatório, formato ISO (`YYYY-MM-DD`)
+- **Data de Lançamento**: obrigatório
 - **Classificação Etária**: opcional, se informado deve ser um número inteiro positivo
 - **ID (param)**: verificado se é um `ObjectId` válido (24 caracteres hexadecimais)
 
