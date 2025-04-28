@@ -6,7 +6,7 @@ export const createFilme = async (req, res) => {
     
     const { nome, nota, descricao, genero, data_lancamento,classificacao_etaria } = req.body;
 
-    const filmeNovo = { nome, nota: new Decimal(nota), descricao, genero,  data_lancamento: new Date(data_lancamento),classificacao_etaria };
+    const filmeNovo = { nome, nota:  parseFloat(nota), descricao, genero,  data_lancamento: new Date(data_lancamento),classificacao_etaria };
     const result = await db.collection("filme").insertOne(filmeNovo);
     res.send(result);
   } catch (error) {
@@ -66,8 +66,8 @@ export const updateFilme = async (req, res) => {
     if (!existFilme) {
       return res.status(404).send("filme não encontrado");
     }
-
-    const filmeAtualizado = { nome, nota: new Decimal(nota), descricao, genero, data_lancamento: new Date(data_lancamento),classificacao_etaria };
+  
+    const filmeAtualizado = { nome, nota:  parseFloat(nota), descricao, genero, data_lancamento: new Date(data_lancamento),classificacao_etaria };
     const result = await db
       .collection("filme")
       .updateOne(
@@ -77,6 +77,7 @@ export const updateFilme = async (req, res) => {
 
     return res.status(200).json(result);
   } catch (error) {
+    console.log(error);
     return res.status(500).send(error);
   }
 };
