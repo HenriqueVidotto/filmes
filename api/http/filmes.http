@@ -36,7 +36,7 @@ Content-Type: application/json
 ### 
 //GET 
 // Buscar filmes lançados entre dois anos
-GET {{baseURL}}/getByAno?anoDe=2020&anoAte=2025
+GET {{baseURL}}/getByAno?anoDe=2020&anoAte=2025&page=2&limit=5&sort=nome&order=asc
 
 
 ### 

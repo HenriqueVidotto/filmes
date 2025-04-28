@@ -603,46 +603,62 @@
         // Função específica para carregar filmes por ano
         async function carregarFilmesPorAno() {
             try {
-                loading.classList.remove('hidden');
-                noResults.classList.add('hidden');
-                filmesLista.innerHTML = '';
-                
-                // Usar a rota específica para filtro por ano
-                const url = `${API_URL}/getByAno?anoDe=${encodeURIComponent(filtroAno.anoDe)}&anoAte=${encodeURIComponent(filtroAno.anoAte)}`;
-                
-                const response = await fetch(url);
-                
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || 'Erro ao carregar filmes por ano');
-                }
-                
-                const data = await response.json();
-                
-                // Processar os dados retornados
-                filmes = data || [];
-                totalFilmes = filmes.length;
-                
-                renderizarFilmes(filmes);
-                atualizarControlesPaginacao();
-                
-                loading.classList.add('hidden');
-                
-                if (filmes.length === 0) {
-                    noResults.classList.remove('hidden');
-                }
-            } catch (error) {
-                console.error('Erro ao carregar filmes por ano:', error);
-                loading.classList.add('hidden');
-                mostrarToast(`Erro ao carregar filmes por ano: ${error.message}`, 'error');
-                
-                // Fallback para demonstração
-                filmes = [];
-                renderizarFilmes(filmes);
-                totalFilmes = 0;
-                atualizarControlesPaginacao();
-                noResults.classList.remove('hidden');
-            }
+        loading.classList.remove('hidden');
+        noResults.classList.add('hidden');
+        filmesLista.innerHTML = '';
+        
+        // Usar a rota específica para filtro por ano, incluindo parâmetros de paginação
+        const url = `${API_URL}/getByAno?anoDe=${encodeURIComponent(filtroAno.anoDe)}&anoAte=${encodeURIComponent(filtroAno.anoAte)}&page=${paginaAtual}&limit=${itensPorPagina}`;
+        
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Erro ao carregar filmes por ano');
+        }
+        
+        const data = await response.json();
+        
+        // Verificar se a resposta tem o formato esperado com dados de paginação
+        if (data.data && data.pagination) {
+            // Formato com paginação: { data: [...], pagination: { total: X, ... } }
+            filmes = data.data || [];
+            totalFilmes = data.pagination.total || 0;
+        } else {
+            // Formato sem paginação (todos os resultados): [...] 
+            // Neste caso, implementamos a paginação no lado do cliente
+            const allFilmes = data || [];
+            totalFilmes = allFilmes.length;
+            
+            // Calcular o índice inicial e final para a página atual
+            const startIndex = (paginaAtual - 1) * itensPorPagina;
+            const endIndex = startIndex + itensPorPagina;
+            
+            // Obter apenas os filmes para a página atual
+            filmes = allFilmes.slice(startIndex, endIndex);
+        }
+        
+        renderizarFilmes(filmes);
+        atualizarControlesPaginacao();
+        
+        loading.classList.add('hidden');
+        
+        if (filmes.length === 0) {
+            noResults.classList.remove('hidden');
+        }
+        
+    } catch (error) {
+        console.error('Erro ao carregar filmes por ano:', error);
+        loading.classList.add('hidden');
+        mostrarToast(`Erro ao carregar filmes por ano: ${error.message}`, 'error');
+        
+        // Fallback para demonstração
+        filmes = [];
+        renderizarFilmes(filmes);
+        totalFilmes = 0;
+        atualizarControlesPaginacao();
+        noResults.classList.remove('hidden');
+    }
         }
 
         // Funções CRUD
