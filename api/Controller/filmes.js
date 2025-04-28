@@ -93,7 +93,7 @@ export const getAllFilmes = async (req, res) => {
     }
 
     if(data_lancamento_inicio || data_lancamento_fim){
-      query.data_lancamento = { $gte: new Date(data_lancamento_inicio), $lte: new Date(data_lancamento_fim) };
+      query.data_lancamento = { $and: [ {$gte: new Date(data_lancamento_inicio)},{ $lte: new Date(data_lancamento_fim)}] };
     }
     
     if(genero){
@@ -130,13 +130,15 @@ export const getAllFilmes = async (req, res) => {
       },
     })
   } catch (error) {
+    console.log(error);
     return res.status(500).send(error);
   }
 };
 
 export const getAllFilmesByAno = async (req, res) => {
   try {
-    const { anoDe, anoAte, page = 1, limit = 10 } = req.query;
+    console.log("entrou na funcao getAllFilmesByAno");
+    const { anoDe, anoAte, page = 1, limit = 10, notaMin, notaMax } = req.query;
 
     const dataInicio = new Date(`${anoDe}-01-01`);
     const dataFim = new Date(`${parseInt(anoAte) + 1}-01-01`);
@@ -145,13 +147,28 @@ export const getAllFilmesByAno = async (req, res) => {
 
     const db = req.app.locals.db;
 
-    const query = {
+    // Inicializando a query com os filtros de data
+    let query = {
       $and: [
         { data_lancamento: { $gte: dataInicio } },
         { data_lancamento: { $lt: dataFim } }
       ]
     };
 
+    // Adicionando o filtro de nota ao array $and, se necessário
+    if (notaMin !== undefined || notaMax !== undefined) {
+      console.log("entrou no if do filtro de nota");
+      const notaFiltro = {};
+      if (notaMin !== undefined) notaFiltro.$gte = parseFloat(notaMin);
+      if (notaMax !== undefined) notaFiltro.$lte = parseFloat(notaMax);
+      
+      // Adiciona o filtro de nota ao array $and
+      query.$and.push({ nota: notaFiltro });
+    }
+
+    console.log("query final:", JSON.stringify(query, null, 2));
+
+    // Realizando a consulta no banco
     const filmes = await db.collection('filme')
       .find(query)
       .skip(skip)
