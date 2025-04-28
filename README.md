@@ -28,7 +28,7 @@ Link da api: https://filmes-git-main-henriquevidottos-projects.vercel.app/
 1. Clone o repositório:
 
    ```bash
-   git clone https://github.com/seu-usuario/seu-repo-filmes.git
+   git clone https://github.com/HenriqueVidotto/filmes
    cd seu-repo-filmes
    ```
 
