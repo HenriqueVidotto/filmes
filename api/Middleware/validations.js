@@ -12,14 +12,14 @@ export const validarRequest = (req, res, next) => {
 
 }
 export const validateId = [
-    param("id").isHexadecimal().isLength({ min: 24, max: 24 }).withMessage("Formato de ID inválido"),
+    param("id").isMongoId().isLength({ min: 24, max: 24 }).withMessage("Formato de ID inválido"),
     validarRequest,
   ];
 
 
   export const validateUpdateFilme = [
     param("id")
-      .isHexadecimal()
+      .isMongoId()
       .isLength({ min: 24, max: 24 })
       .withMessage("O ID deve ser um número inteiro válido maior que 0"),
     check("nome")
