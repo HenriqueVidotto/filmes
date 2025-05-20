@@ -1,11 +1,12 @@
 @baseURL = http://localhost:3000/api/filmes
 @id = 680f7cb0fec82d0c81fd880b
-
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjgyMjgyOWUwYzdkMGMxOWQxMmI1NGMyIn0sImlhdCI6MTc0NzA5MzAyNywiZXhwIjoxNzQ3MTc5NDI3fQ.oTZjpRNw51JJ60rvYgTe1CIdE84tGtcFC6S27gcUzXY
 ###
 // POST 
 // Insere um novo filme
 POST {{baseURL}}
 Content-Type: application/json
+access-token: {{token}}
 
 {
   "nome": "terste",
@@ -22,7 +23,7 @@ Content-Type: application/json
 // Atualizar um filme existente
 PUT {{baseURL}}/{{id}}
 Content-Type: application/json
-
+access-token: {{token}}
 {
   "nome": "Teste Atualizado",
   "descricao": "Descrição atualizada",
@@ -37,15 +38,25 @@ Content-Type: application/json
 //GET 
 // Buscar filmes lançados entre dois anos
 GET {{baseURL}}/getByAno?anoDe=2020&anoAte=2025&page=2&limit=5&sort=nome&order=asc
-
+Content-Type: application/json
+access-token: {{token}}
 
 ### 
 //GET 
 // Listar todos os filmes (paginado, filtrável)
 GET {{baseURL}}?page=1&limit=10&sort=nome&order=asc
-
+Content-Type: application/json
+access-token: {{token}}
 
 ### 
 //DELETE 
 // Deletar um filme pelo ID
 DELETE {{baseURL}}/{{id}}
+Content-Type: application/json
+access-token: {{token}}
+
+###
+//buscar todos os filmes
+GET {{baseURL}}
+Content-Type: application/json
+access-token: {{token}}

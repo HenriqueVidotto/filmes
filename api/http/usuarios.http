@@ -1,0 +1,25 @@
+@baseURL = http://localhost:3000/api/usuarios
+
+
+###
+# @prompt senha
+
+POST {{baseURL}}
+Content-type: application/json
+
+{
+    "nome": "Henrique Vidotto",
+    "email": "teste12@teste.com",
+    "senha": "{{senha}}"
+}
+
+
+###
+# @prompt senha
+POST {{baseURL}}/login
+Content-type: application/json
+
+{
+    "email": "teste@teste.com",
+    "senha": "{{senha}}"
+}

@@ -101,12 +101,12 @@ export const getAllFilmes = async (req, res) => {
     }
     const db = req.app.locals.db;
 
-    // Configuração de ordenação
+   
     const sortOptions = {};
     if (sort) {
       sortOptions[sort] = order.toLowerCase() === "desc" ? -1 : 1;
     } else {
-      // Ordenação padrão por nome se nenhuma for especificada
+      
       sortOptions.nome = 1;
     }
 
