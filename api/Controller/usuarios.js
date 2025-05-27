@@ -55,14 +55,14 @@ export const efetuaLogin = async (req, res) => {
       });
     }
 
-    jwt.sign(
+  await jwt.sign(
       { usuario: { id: usuario[0]._id } },
       process.env.SECRET_KEY,
       { expiresIn: process.env.EXPIRES_IN },
       (err, token) => {
         if (err) throw err;
         res.status(200).json({
-          
+
           access_token: token,
           msg: "login efetuado",
         });
