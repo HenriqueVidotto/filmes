@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 
 export const insereUsuario = async (req, res) => {
   try {
+
     req.body.avatar = `https://ui-avatars.com/api/?name=${req.body.nome.replace(
       / /g,
       "+"
@@ -22,7 +23,7 @@ export const insereUsuario = async (req, res) => {
 
 export const efetuaLogin = async (req, res) => {
   try {
-    console.log(req.body);
+   
     const { email, senha } = req.body;
     const db = req.app.locals.db;
 
@@ -32,7 +33,7 @@ export const efetuaLogin = async (req, res) => {
       .find({ email })
       .limit(1)
       .toArray();
-
+ console.log(usuario);
     if (!usuario.length) {
       return res.status(404).json({
         errors: [
@@ -61,6 +62,7 @@ export const efetuaLogin = async (req, res) => {
       (err, token) => {
         if (err) throw err;
         res.status(200).json({
+          
           access_token: token,
           msg: "login efetuado",
         });

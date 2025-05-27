@@ -1,6 +1,6 @@
-const urlBase = window.location.href + 'api';
+const urlBase = window.location.origin + '/api';
 
-document.getElementById('formUsuario').addEventListener('submit', function(event){
+document.getElementById('formLogin').addEventListener('submit', function(event){
 
     event.preventDefault(); //evita o recarregamento padrão
 
@@ -14,13 +14,16 @@ document.getElementById('formUsuario').addEventListener('submit', function(event
         senha: senha
     }
     //efetuar post
+
+ 
     fetch(`${urlBase}/usuarios/login`,{
         method: 'POST',
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(dadosLogin)
     }).then(response => response.json())
     .then(data =>{
-        if(data.id){
+        console.log(data);
+        if(data.access_token){
             //armazenar o toke no LocalStorage
             localStorage.setItem('token',data.access_token)
             window.location.href = 'filmes.html'
