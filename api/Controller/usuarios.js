@@ -60,12 +60,14 @@ export const efetuaLogin = async (req, res) => {
       process.env.SECRET_KEY,
       { expiresIn: process.env.EXPIRES_IN },
       (err, token) => {
-        if (err) throw err;
-        res.status(200).json({
-
-          access_token: token,
-          msg: "login efetuado",
-        });
+         if (err) {
+         console.error(err);
+         return res.status(500).json({ msg: "Erro ao gerar token" });
+        }
+         return res.status(200).json({
+      access_token: token,
+      msg: "Login efetuado",
+    });
       }
     );
   } catch (e) {
