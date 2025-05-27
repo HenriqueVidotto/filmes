@@ -62,7 +62,7 @@ export const efetuaLogin = async (req, res) => {
       (err, token) => {
          if (err) {
          console.error(err);
-         return res.status(500).json({ msg: "Erro ao gerar token" });
+         return res.status(500).json({ msg: "Erro ao gerar token" + err.message });
         }
          return res.status(200).json({
       access_token: token,
