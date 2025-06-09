@@ -1,44 +1,28 @@
-import express from 'express';
-import dotenv from "dotenv";
-import cors from 'cors'
+import swaggerAutogen from 'swagger-autogen';
 
+const doc = {
+  info: {
+    title: 'API Filmes',
+    description: 'Description'
+  },
+   securityDefinitions: {
+        apiKeyAuth:{
+            type: "apiKey",
+            in: "header",      
+            name: "access-token",  
+            description: "any description..."
+        }
+    },
+  host: 'https://filmes-swart-eight.vercel.app'
+};
 
-import { connectToDataBase } from './config/db.js';
-import filmesRoutes from './Routes/filmes.js';
-import usuariosRoutes from './Routes/usuarios.js'
-import auth from './Middleware/auth.js';
+const outputFile = './api/swagger/swagger-output.json';
 
+const routes = ['../index.js'];
 
-import swaggerUI from 'swagger-ui-express';
-import fs from 'fs';
+/* NOTE: If you are using the express Router, you must pass in the 'routes' only the 
+root file where the route starts, such as index.js, app.js, routes.js, etc ... */
 
-
-const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css"
-
-
-
-const app = express();
-app.use(cors());
-const PORT = process.env.PORT || 3000;
-app.use(express.json())
-app.use("/", express.static('public'));
-
-app.use('/api/doc', swaggerUI.serve, swaggerUI.setup(JSON.parse(fs.readFileSync('./api/swagger/swagger-output.json')), {
-    customCss:
-        '.swagger-ui .opblock .opblock-summary-path-description-wrapper { align-items: center; display: flex; flex-wrap: wrap; gap: 0 10px; padding: 0 10px; width: 100%; }',
-    customCssUrl: CSS_URL
-}))
-
-
-app.use("/api/filmes",auth, filmesRoutes);
-app.use("/api/usuarios", usuariosRoutes);
-
-dotenv.config();
-connectToDataBase(app).then(() => {
-
-    app.listen(PORT, () => {
-        console.log(`Servidor rodando na porta ${PORT}`);
-    });
-
-
+swaggerAutogen()(outputFile, routes, doc).then(async () => {
+   await import('../index.js');
 });
