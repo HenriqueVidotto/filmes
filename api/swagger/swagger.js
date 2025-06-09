@@ -13,7 +13,7 @@ const doc = {
             description: "any description..."
         }
     },
-  host: 'localhost:3000'
+  host: 'https://filmes-swart-eight.vercel.app/'
 };
 
 const outputFile = './swagger-output.json';
