@@ -11,9 +11,16 @@ import auth from './Middleware/auth.js';
 
 import swaggerUi from 'swagger-ui-express';
 import fs from 'fs/promises';
-const swaggerFile = JSON.parse(
-  await fs.readFile(new URL('./swagger-output.json', import.meta.url))
-);
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+// Resolve caminhos relativos
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Lê o JSON em runtime
+const swaggerJSONPath = join(__dirname, './swagger/swagger-output.json');
+const swaggerFile = JSON.parse(await fs.readFile(swaggerJSONPath, 'utf-8'));
 
 
 const app = express();
