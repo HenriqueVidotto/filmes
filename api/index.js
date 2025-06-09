@@ -10,7 +10,7 @@ import auth from './Middleware/auth.js';
 
 
 import swaggerUi from 'swagger-ui-express';
-import swaggerFile from '../swagger-output.json' assert { type: "json" };
+import swaggerFile from './swagger/swagger-output.json' assert { type: "json" };
 
 const app = express();
 app.use(cors());

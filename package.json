@@ -18,7 +18,7 @@
     "test": "jest",
     "start": "node ./api/index.js",
     "dev": "nodemon ./api/index.js",
-    "swagger": "node ./swagger.js"
+    "swagger": "node ./api/swagger/swagger.js"
   },
   "author": "Henrique",
   "license": "MIT",
