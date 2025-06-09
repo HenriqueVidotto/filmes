@@ -8,7 +8,7 @@
     ],
   "functions": {
     "api/index.js": {
-      "includeFiles": "swagger/swagger-output.json"
+      "includeFiles": "api/swagger/swagger-output.json"
     }
   }
 }
