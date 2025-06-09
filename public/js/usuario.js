@@ -1,6 +1,6 @@
-const urlBase = window.location.origin + '/api';
+const urlBase = window.location.href + 'api';
 
-document.getElementById('formCadastro').addEventListener('submit', function(event){
+document.getElementById('formLogin').addEventListener('submit', function(event){
 
     event.preventDefault(); //evita o recarregamento padrão
 
@@ -15,8 +15,6 @@ document.getElementById('formCadastro').addEventListener('submit', function(even
         email: login,
         senha: senha
     }
-    
-    console.log(urlBase);
     //efetuar post
     fetch(`${urlBase}/usuarios/`,{
         method: 'POST',
@@ -26,7 +24,7 @@ document.getElementById('formCadastro').addEventListener('submit', function(even
     .then(data =>{
         if(!data.errors){
 
-            window.location.href = 'index.html'
+            window.location.href = 'login.html'
         }else if(data.insertedId){
             const errorMessages = data.errors.map(error => error.msg).join('<br>');
 
