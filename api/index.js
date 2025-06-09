@@ -9,18 +9,12 @@ import usuariosRoutes from './Routes/usuarios.js'
 import auth from './Middleware/auth.js';
 
 
-import swaggerUi from 'swagger-ui-express';
-import fs from 'fs/promises';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+import swaggerUI from 'swagger-ui-express';
+import fs from 'fs';
 
-// Resolve caminhos relativos
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
-// Lê o JSON em runtime
-const swaggerPath = join(__dirname, './swagger/swagger-output.json');
-const swaggerFile = JSON.parse(await fs.readFile(swaggerJSONPath, 'utf-8'));
+const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css"
+
 
 
 const app = express();
@@ -29,8 +23,12 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json())
 app.use("/", express.static('public'));
 
+app.use('/api/doc', swaggerUI.serve, swaggerUI.setup(JSON.parse(fs.readFileSync('./api/swagger/swagger-output.json')), {
+    customCss:
+        '.swagger-ui .opblock .opblock-summary-path-description-wrapper { align-items: center; display: flex; flex-wrap: wrap; gap: 0 10px; padding: 0 10px; width: 100%; }',
+    customCssUrl: CSS_URL
+}))
 
-app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 app.use("/api/filmes",auth, filmesRoutes);
 app.use("/api/usuarios", usuariosRoutes);
