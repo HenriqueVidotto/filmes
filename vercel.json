@@ -6,9 +6,9 @@
             "destination": "/api"
         }
     ],
-    "functions": {
-        "api/index.js": {
-            "includeFiles": "api/swagger/swagger_output.json"
-        }
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "swagger/swagger-output.json"
     }
+  }
 }
