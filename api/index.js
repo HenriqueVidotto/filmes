@@ -19,7 +19,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Lê o JSON em runtime
-const swaggerPath = join(__dirname, '../swagger/swagger-output.json');
+const swaggerPath = join(__dirname, './swagger/swagger-output.json');
 const swaggerFile = JSON.parse(await fs.readFile(swaggerJSONPath, 'utf-8'));
 
 
