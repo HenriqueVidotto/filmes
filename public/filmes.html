@@ -496,6 +496,30 @@
     <script>
         // Configuração da API
         const API_URL = '/api/filmes';
+
+        function buscarToken() {
+            let token = localStorage.getItem('token');
+             if (!token) {
+            window.location.href = 'index.html';
+            return;
+          }
+            return token;
+        }
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const token = localStorage.getItem('token');
+
+       if (!token) {
+
+                window.location.href = 'index.html';
+           
+            return;
+        }
+
+        // Se o token existir, continua e carrega os filmes
+        carregarFilmes(token);
+    });
         let filmeIdParaExcluir = null;
         let filmes = [];
         let totalFilmes = 0;
@@ -712,11 +736,21 @@
                     url += `&notaMax=${encodeURIComponent(filtroAno.notaMax)}`;
                 }
 
-                const response = await fetch(url);
+                let token = buscarToken();
+                if (!token) {
+                    throw new Error('Token de autenticação não encontrado. Por favor, faça login novamente.');
+                }
+
+                const response = await fetch(url,{
+                    headers: {
+                      'access-token': `${token}`,
+                    'Content-Type': 'application/json',
+                    }
+                });
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error(errorData.message || 'Erro ao carregar filmes por ano');
+                   throw errorData;
                 }
 
                 const data = await response.json();
@@ -751,7 +785,18 @@
             } catch (error) {
                 console.error('Erro ao carregar filmes por ano:', error);
                 loading.classList.add('hidden');
-                mostrarToast(`Erro ao carregar filmes por ano: ${error.message}`, 'error');
+
+                let mensagens;
+
+                if (error?.errors && Array.isArray(error.errors)) {
+                    mensagens = error.errors.map(e => e.msg).join(', ');
+                } else if (error?.message) {
+                    mensagens = error.message;
+                } else {
+                    mensagens = 'Erro desconhecido ao excluir filme.';
+                }
+                mostrarToast(`Erro ao carregar filme: ${mensagens}`, 'error');
+               
 
                 // Fallback para demonstração
                 filmes = [];
@@ -795,11 +840,21 @@
 
                 url += `&sort=${filtros.sort}&order=${filtros.order}`;
 
-                const response = await fetch(url);
+                let token = buscarToken();
+                if (!token) {
+                    throw new Error('Token de autenticação não encontrado. Por favor, faça login novamente.');
+                }
+                
+                const response = await fetch(url,{
+                    headers: {
+                    'access-token': `${token}`,
+                    'Content-Type': 'application/json',
+                    }
+                });
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error(errorData.message || 'Erro ao carregar filmes');
+                     throw errorData;
                 }
 
                 const data = await response.json();
@@ -819,7 +874,18 @@
             } catch (error) {
                 console.error('Erro ao carregar filmes:', error);
                 loading.classList.add('hidden');
-                mostrarToast(`Erro ao carregar filmes: ${error.message}`, 'error');
+
+                      let mensagens;
+
+                if (error?.errors && Array.isArray(error.errors)) {
+                    mensagens = error.errors.map(e => e.msg).join(', ');
+                } else if (error?.message) {
+                    mensagens = error.message;
+                } else {
+                    mensagens = 'Erro desconhecido ao excluir filme.';
+                }
+                mostrarToast(`Erro ao carregar filme: ${mensagens}`, 'error');
+              
 
                 // Fallback para demonstração caso a API não esteja disponível
                 filmes = [
@@ -911,17 +977,25 @@
 
         async function criarFilme(filme) {
             try {
+
+                 let token = buscarToken();
+                if (!token) {
+                    throw new Error('Token de autenticação não encontrado. Por favor, faça login novamente.');
+                }
+
+               
                 const response = await fetch(`${API_URL}/`, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                          'access-token': `${token}`,
                     },
                     body: JSON.stringify(filme)
                 });
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error(errorData.message || 'Erro ao criar filme');
+                     throw errorData;
                 }
 
                 const novoFilme = await response.json();
@@ -933,24 +1007,44 @@
                 // Recarregar a lista para manter a consistência com os filtros e paginação
                 carregarFilmes();
             } catch (error) {
-                console.error('Erro ao criar filme:', error);
-                mostrarToast(`Erro ao adicionar filme: ${error.message}`, 'error');
+                     let mensagens;
+
+                if (error?.errors && Array.isArray(error.errors)) {
+                    mensagens = error.errors.map(e => e.msg).join(', ');
+                } else if (error?.message) {
+                    mensagens = error.message;
+                } else {
+                    mensagens = 'Erro desconhecido ao excluir filme.';
+                }
+                 mostrarToast(`Erro ao adicionar filme: ${mensagens}`, 'error');
+               
             }
         }
 
         async function visualizarFilme(id) {
             try {
-                const response = await fetch(`${API_URL}/${id}`);
+
+                 let token = buscarToken();
+                if (!token) {
+                    throw new Error('Token de autenticação não encontrado. Por favor, faça login novamente.');
+                }
+                const response = await fetch(`${API_URL}/${id}`,{
+                    headers: {
+                      'access-token': `${token}`,
+                    'Content-Type': 'application/json',
+                    }
+                });
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error(errorData.message || 'Erro ao buscar filme');
+                    throw errorData;
                 }
 
                 const filme = await response.json();
 
                 if (filme) {
                     modalTitle.textContent = 'Visualizar Filme';
+               
                     document.getElementById('filme-id').value = filme._id;
                     document.getElementById('nome').value = filme.nome;
                     document.getElementById('nota').value = filme.nota;
@@ -968,18 +1062,37 @@
                     modal.classList.remove('hidden');
                 }
             } catch (error) {
-                console.error('Erro ao visualizar filme:', error);
-                mostrarToast(`Erro ao carregar detalhes do filme: ${error.message}`, 'error');
+                      let mensagens;
+
+                if (error?.errors && Array.isArray(error.errors)) {
+                    mensagens = error.errors.map(e => e.msg).join(', ');
+                } else if (error?.message) {
+                    mensagens = error.message;
+                } else {
+                    mensagens = 'Erro desconhecido ao excluir filme.';
+                }
+                 mostrarToast(`Erro ao carregar detalhes do filme: ${mensagens}`, 'error');
+               
             }
         }
 
         async function editarFilme(id) {
             try {
-                const response = await fetch(`${API_URL}/${id}`);
+                 let token = buscarToken();
+                 debugger
+                if (!token) {
+                    throw new Error('Token de autenticação não encontrado. Por favor, faça login novamente.');
+                }
+                const response = await fetch(`${API_URL}/${id}`,{
+                    headers: {
+                      'access-token': `${token}`,
+                    'Content-Type': 'application/json',
+                    }
+                });
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error(errorData.message || 'Erro ao buscar filme');
+                     throw errorData;
                 }
 
                 const filme = await response.json();
@@ -992,6 +1105,7 @@
                     document.getElementById('genero').value = filme.genero;
                     document.getElementById('data_lancamento').value = formatarDataParaInput(filme.data_lancamento);
                     document.getElementById('descricao').value = filme.descricao;
+                    document.getElementById('classificacao_etaria').value = filme.classificacao_etaria;
 
                     // Habilitar campos para edição
                     document.querySelectorAll('#filme-form input, #filme-form textarea').forEach(input => {
@@ -1002,24 +1116,38 @@
                     modal.classList.remove('hidden');
                 }
             } catch (error) {
-                console.error('Erro ao editar filme:', error);
-                mostrarToast(`Erro ao carregar detalhes do filme para edição: ${error.message}`, 'error');
+                        let mensagens;
+
+                if (error?.errors && Array.isArray(error.errors)) {
+                    mensagens = error.errors.map(e => e.msg).join(', ');
+                } else if (error?.message) {
+                    mensagens = error.message;
+                } else {
+                    mensagens = 'Erro desconhecido ao excluir filme.';
+                }
+                mostrarToast(`Erro ao carregar detalhes do filme para edição: ${mensagens}`, 'error');
+                
             }
         }
 
         async function atualizarFilme(id, filme) {
             try {
+                 let token = buscarToken();
+                if (!token) {
+                    throw new Error('Token de autenticação não encontrado. Por favor, faça login novamente.');
+                }
                 const response = await fetch(`${API_URL}/${id}`, {
                     method: 'PUT',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                         'access-token': `${token}`,
                     },
                     body: JSON.stringify(filme)
                 });
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error(errorData.message || 'Erro ao atualizar filme');
+                     throw errorData;
                 }
 
                 const filmeAtualizado = await response.json();
@@ -1034,8 +1162,17 @@
                     carregarFilmes();
                 }
             } catch (error) {
-                console.error('Erro ao atualizar filme:', error);
-                mostrarToast(`Erro ao atualizar filme: ${error.message}`, 'error');
+                      let mensagens;
+
+                if (error?.errors && Array.isArray(error.errors)) {
+                    mensagens = error.errors.map(e => e.msg).join(', ');
+                } else if (error?.message) {
+                    mensagens = error.message;
+                } else {
+                    mensagens = 'Erro desconhecido ao excluir filme.';
+                }
+            mostrarToast(`Erro ao atualizar filme: ${mensagens}`, 'error');
+              
             }
         }
 
@@ -1047,12 +1184,16 @@
         async function excluirFilme(id) {
             try {
                 const response = await fetch(`${API_URL}/${id}`, {
-                    method: 'DELETE'
+                    method: 'DELETE',
+                    headers: {
+                           'access-token': `${token}`,
+                        'Content-Type': 'application/json',
+                    }
                 });
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error(errorData.message || 'Erro ao excluir filme');
+                     throw errorData;
                 }
 
                 filmes = filmes.filter(f => f._id !== id);
@@ -1067,8 +1208,17 @@
                     carregarFilmes();
                 }
             } catch (error) {
-                console.error('Erro ao excluir filme:', error);
-                mostrarToast(`Erro ao excluir filme: ${error.message}`, 'error');
+               let mensagens;
+
+                if (error?.errors && Array.isArray(error.errors)) {
+                    mensagens = error.errors.map(e => e.msg).join(', ');
+                } else if (error?.message) {
+                    mensagens = error.message;
+                } else {
+                    mensagens = 'Erro desconhecido ao excluir filme.';
+}
+               mostrarToast(`Erro ao excluir filme: ${mensagens}`, 'error');
+               
             }
         }
 
@@ -1192,17 +1342,22 @@
 
         async function criarFilme(filme) {
             try {
+                 let token = buscarToken();
+                if (!token) {
+                    throw new Error('Token de autenticação não encontrado. Por favor, faça login novamente.');
+                }
                 const response = await fetch(`${API_URL}/`, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'access-token': `${token}`,
                     },
                     body: JSON.stringify(filme)
                 });
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error(errorData.message || 'Erro ao criar filme');
+                    throw errorData;
                 }
 
                 const novoFilme = await response.json();
@@ -1217,9 +1372,19 @@
                 } else {
                     carregarFilmes();
                 }
-            } catch (error) {
-                console.error('Erro ao criar filme:', error);
-                mostrarToast(`Erro ao adicionar filme: ${error.message}`, 'error');
+            } catch ( error) {
+
+                let mensagens;
+
+                if (error?.errors && Array.isArray(error.errors)) {
+                    mensagens = error.errors.map(e => e.msg).join(', ');
+                } else if (error?.message) {
+                    mensagens = error.message;
+                } else {
+                    mensagens = 'Erro desconhecido ao excluir filme.';
+                }
+                 mostrarToast(`Erro ao adicionar filme: ${mensagens}`, 'error');
+
             }
         }
 

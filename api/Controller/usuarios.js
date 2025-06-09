@@ -22,7 +22,7 @@ export const insereUsuario = async (req, res) => {
 
 export const efetuaLogin = async (req, res) => {
   try {
-    console.log(req.body);
+
     const { email, senha } = req.body;
     const db = req.app.locals.db;
 

@@ -50,8 +50,8 @@ export const validateId = [
       .isDate().withMessage("A data de lançamento deve ser uma data válida"),
     check("classificacao_etaria")
       .optional()
-      .isInt({ min: 0 })
-      .withMessage("A classificação etária deve ser um número inteiro positivo"),
+      .isInt({ min: 0, max: 18 })
+      .withMessage("A classificação etária deve ser um número inteiro positivo entre 0 e 18"),
     validarRequest
   ];
 
@@ -64,6 +64,10 @@ export const validateFilme = [
     check('genero').notEmpty().withMessage('O campo genero deve ser preenchido'),
     check('data_lancamento').notEmpty().withMessage('O campo data_lancamento deve ser preenchido')
         .isDate().withMessage('A data de lançamento deve ser uma data válida'),
+    check("classificacao_etaria")
+      .optional()
+     .isInt({ min: 0, max: 18 })
+      .withMessage("A classificação etária deve ser um número inteiro positivo entre 0 e 18"),
     //aplica as validações
     validarRequest
 ]

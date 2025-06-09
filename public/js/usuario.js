@@ -1,6 +1,6 @@
-const urlBase = window.location.href + 'api';
+const urlBase = window.location.origin + '/api';
 
-document.getElementById('formLogin').addEventListener('submit', function(event){
+document.getElementById('formCadastro').addEventListener('submit', function(event){
 
     event.preventDefault(); //evita o recarregamento padrão
 
@@ -24,7 +24,7 @@ document.getElementById('formLogin').addEventListener('submit', function(event){
     .then(data =>{
         if(!data.errors){
 
-            window.location.href = 'login.html'
+            window.location.href = 'index.html'
         }else if(data.insertedId){
             const errorMessages = data.errors.map(error => error.msg).join('<br>');
 
