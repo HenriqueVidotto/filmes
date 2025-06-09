@@ -12,6 +12,7 @@ import auth from './Middleware/auth.js';
 import swaggerUI from 'swagger-ui-express';
 import fs from 'fs';
 
+import path from 'path'
 import { fileURLToPath } from 'url' // Importa fileURLToPath para módulos ES
 
 // Obter equivalente a __dirname e __filename em módulos ES
