@@ -5,6 +5,10 @@ const doc = {
     title: 'API Filmes',
     description: 'Description'
   },
+  basePath: "/api",
+  schemes: ['https'],
+  consumes: ['application/json'],
+  produces: ['application/json'],
    securityDefinitions: {
         apiKeyAuth:{
             type: "apiKey",
