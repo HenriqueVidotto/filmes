@@ -48,9 +48,14 @@ export const efetuaLogin = async (req, res) => {
     const isMatch = await bcrypt.compare(senha, usuario[0].senha);
     if (!isMatch) {
       return res.status(403).json({
-        value: "senha",
-        msg: "Senha esta incorreta",
-        param: "senha",
+        errors: [
+          {
+            value: `${senha}`,
+            msg: "Senha incorreta",
+            param: "senha",
+          },
+        ],
+   
       });
     }
 

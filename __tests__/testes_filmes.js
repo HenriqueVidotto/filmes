@@ -37,7 +37,7 @@ describe('API REST filmes com token', () => {
         const response = await request(baseURL)
         .post('/usuarios/login')
         .set('Content-Type', 'application/json')
-        .send({"email": 'teste@teste.com', "senha": senha })
+        .send({"email": 'henriquevidotto@teste.com', "senha": senha })
         .expect(200)
 
      
@@ -55,4 +55,43 @@ describe('API REST filmes com token', () => {
         const filmes = response.body
         expect(filmes).toBeInstanceOf(Object)
     })
+
+        let idFilme
+        let filme =    {
+        "nome": "teste filme",
+        "descricao": "Filme de teste",
+        "genero": "Ação",
+        "nota": 10,
+        "data_lancamento": "2022-01-01",
+        "classificacao_etaria": 12
+        }
+
+
+     it('POST - Inclui um novo filme com autenticação', async () => {
+        const response = await request(baseURL)
+            .post('/filmes')
+            .set('Content-Type', 'application/json')
+            .set('access-token', token)
+            .send(filme)
+            .expect(201) //Created
+
+        expect(response.body).toHaveProperty('_id')
+        expect(typeof response.body._id).toBe('string')
+        expect(response.body._id.length).toBeGreaterThan(0)
+
+        idFilme = response.body._id
+    })
+
+    it('DELETE - Remove o Filme', async () => {
+        const response = await request(baseURL)
+            .delete(`/filmes/${idFilme}`)
+            .set('Content-Type', 'application/json')
+            .set('access-token', token)
+            .expect(200)
+
+        expect(response.body).toHaveProperty('message')
+        expect(response.body.message).toBe('Filme deleted successfully')
+    })
+
+
 })

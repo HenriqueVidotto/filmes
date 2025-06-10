@@ -114,3 +114,28 @@ export const validateUsuario = [
   validarRequest     
 ]
 
+
+export const checkEmailDuplicado = async (req, res, next) => {
+  const db = req.app.locals.db
+  const email = req.body.email
+
+  if (!email) return next() // evita erro se o campo nem foi enviado
+
+  try {
+    const existe = await db.collection('usuarios').findOne({ email })
+    if (existe) {
+      return res.status(400).json({
+        error: true,
+        message: `O e-mail ${email} já está em uso`,
+        errors: [{ msg: `O e-mail ${email} já está em uso`, param: 'email', location: 'body' }]
+      })
+    }
+    next()
+  } catch (err) {
+    console.error("Erro ao verificar e-mail duplicado:", err)
+    return res.status(500).json({
+      error: true,
+      message: "Erro interno ao validar o e-mail",
+    })
+  }
+}

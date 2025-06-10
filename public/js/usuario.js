@@ -25,7 +25,7 @@ document.getElementById('formCadastro').addEventListener('submit', function(even
         if(!data.errors){
 
             window.location.href = 'index.html'
-        }else if(data.insertedId){
+        }else if(data.errors){
             const errorMessages = data.errors.map(error => error.msg).join('<br>');
 
             document.getElementById('mensagem').innerHTML = `<span class='text-danger'>${errorMessages} </span>`

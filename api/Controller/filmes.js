@@ -8,7 +8,10 @@ export const createFilme = async (req, res) => {
 
     const filmeNovo = { nome, nota:  parseFloat(nota), descricao, genero,  data_lancamento: new Date(data_lancamento),classificacao_etaria };
     const result = await db.collection("filme").insertOne(filmeNovo);
-    res.send(result);
+      res.status(201).json({
+    _id: result.insertedId,
+    ...filmeNovo,
+  })
   } catch (error) {
 
     return res.status(500).send(error);
@@ -48,7 +51,7 @@ export const deleteFilme = async (req, res) => {
       .collection("filme")
       .deleteOne({ _id: ObjectId.createFromHexString(id) });
 
-    return res.status(200).json(result);
+     res.status(200).json({ message: "Filme deleted successfully" })
   } catch (error) {
 
     return res.status(500).send(error);
