@@ -6,7 +6,7 @@
     "version": "1.0.0"
   },
   "host": "https://filmes-swart-eight.vercel.app",
-  "basePath": "/api",
+  "basePath": "/",
   "schemes": [
     "https"
   ],
@@ -103,8 +103,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "201": {
+            "description": "Created"
           },
           "500": {
             "description": "Internal Server Error"
@@ -270,6 +270,9 @@
             "schema": {
               "type": "object",
               "properties": {
+                "email": {
+                  "example": "any"
+                },
                 "avatar": {
                   "example": "any"
                 },
@@ -286,6 +289,9 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
