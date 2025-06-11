@@ -5,7 +5,7 @@ const doc = {
     title: 'API Filmes',
     description: 'Description'
   },
-  basePath: "/api",
+  basePath: "/",
   schemes: ['https'],
   consumes: ['application/json'],
   produces: ['application/json'],
