@@ -17,7 +17,11 @@ const doc = {
             description: "any description..."
         }
     },
+  security: [{
+    apiKeyAuth: []
+  }],
   host: 'filmes-swart-eight.vercel.app'
+  
 };
 
 const outputFile = './api/swagger/swagger-output.json';
