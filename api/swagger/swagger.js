@@ -17,7 +17,7 @@ const doc = {
             description: "any description..."
         }
     },
-  host: 'https://filmes-swart-eight.vercel.app'
+  host: 'filmes-swart-eight.vercel.app'
 };
 
 const outputFile = './api/swagger/swagger-output.json';
