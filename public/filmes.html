@@ -793,9 +793,9 @@
                 } else if (error?.message) {
                     mensagens = error.message;
                 } else {
-                    mensagens = 'Erro desconhecido ao excluir filme.';
+                    mensagens = 'Erro desconhecido ao Carregar filme.';
                 }
-                mostrarToast(`Erro ao carregar filme: ${mensagens}`, 'error');
+                mostrarToast(`Erro ao Carregar filme: ${mensagens}`, 'error');
                
 
                 // Fallback para demonstração
@@ -1183,10 +1183,14 @@
 
         async function excluirFilme(id) {
             try {
+                 let token = buscarToken();
+                if (!token) {
+                    throw new Error('Token de autenticação não encontrado. Por favor, faça login novamente.');
+                }
                 const response = await fetch(`${API_URL}/${id}`, {
                     method: 'DELETE',
                     headers: {
-                           'access-token': `${token}`,
+                       'access-token': `${token}`,
                         'Content-Type': 'application/json',
                     }
                 });
